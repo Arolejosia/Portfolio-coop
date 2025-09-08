@@ -6,7 +6,7 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-blue-600">Josia</h1>
+        <h1 className="text-xl font-bold text-blue-600">Josia Arole</h1>
         <ul className="flex gap-6 text-gray-700 font-medium">
           <li><a href="#hero" className="hover:text-blue-600">Accueil</a></li>
           <li><a href="#about" className="hover:text-blue-600">À propos</a></li>
@@ -47,7 +47,7 @@ function About() {
         Développeuse passionnée, je conçois des applications web et mobiles
         innovantes. Je combine créativité, rigueur technique et sens de l’ergonomie
         pour offrir des solutions performantes et intuitives. 
-        Mes projets incluent <strong>MemorizBible</strong>, <strong>Ezer Services</strong> et <strong>Proxymus</strong>.
+        Mes projets incluent <strong>MemorizBible</strong>, <strong>Ezer Services</strong> et <strong>Panel Admin </strong>.
       </p>
     </section>
   );
@@ -69,7 +69,7 @@ function Projects() {
   const projets = [
     {
       titre: "MemorizBible",
-      description: "Application mobile de mémorisation biblique (QCM, dictée, recitation, multijoueur).",
+      description: "Application mobile de mémorisation  (QCM, dictée, recitation, multijoueur).",
       lien: "https://github.com/Arolejosia/memoriz_bible",
     },
     {
@@ -83,7 +83,7 @@ function Projects() {
       lien: "https://github.com/Arolejosia/Brilliant_Agent",
     },
     {
-      titre: "",
+      titre: "Gestionnaire de taches avancee et moderne",
       description: "Application mobile de mise en relation conducteurs–dépanneurs.",
       lien: "https://github.com/Arolejosia/memoriz-bible-api",
     },
@@ -102,7 +102,7 @@ function Projects() {
 }
 
 function Skills() {
-  const skills = ["Flutter", "Firebase", "React", "FastAPI", "SQL", "GitHub", "Render"];
+  const skills = ["Flutter", "Firebase", "React", "FastAPI", "SQL", "GitHub", "Render", "Javasript","Express","SQL", "Figma", "UI/UX Design"];
   return (
     <section id="skills" className="py-20 bg-white text-center">
       <h2 className="text-3xl font-bold">Compétences</h2>
