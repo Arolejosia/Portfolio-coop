@@ -95,7 +95,7 @@ function ImageCarouselModal({ images, onClose }) {
         <div className="relative">
           <img
             src={images[currentImageIndex]}
-            alt={`Image ${currentImageIndex + 1}`}
+            alt={`Aperçu ${currentImageIndex + 1} du projet`}
             className="w-full h-auto max-h-[80vh] object-contain rounded-lg shadow-2xl"
           />
           
@@ -229,20 +229,26 @@ function Projects() {
 
   const projets = [
     {
-      titre: "API Gestionnaire de Tâches",
-      description: "API RESTful pour une application de gestion de tâches moderne.",
-      lien: "https://github.com/Arolejosia/memoriz-bible-api",
-      images: [
-        "https://via.placeholder.com/600x400/3B82F6/FFFFFF?text=Task+Manager+API",
-        "https://via.placeholder.com/600x400/10B981/FFFFFF?text=Database+Schema",
-        "https://via.placeholder.com/600x400/F59E0B/FFFFFF?text=API+Routes"
-      ],
-      technologies: ["Node.js", "Express", "PostgreSQL"],
-      details: [
-        { title: "Objectif", content: "Fournir un backend sécurisé et performant pour une application de type 'To-Do List'." },
-        { title: "Technologies", content: "API développée avec Node.js et Express, connectée à une base de données PostgreSQL via l'ORM Sequelize." },
-        { title: "Fonctionnalités", content: "• Authentification JWT<br />• CRUD complet pour les tâches<br />• Gestion des utilisateurs<br />• Validation des données" }
-      ]
+    titre: "Moderne Kanban",
+    description: "Application web full-stack de gestion de tâches avec authentification et rappels.",
+    lien: "https://github.com/Arolejosia/kanban-fullstack",
+    liveLink: "https://modernekanban.netlify.app/",
+    imageUrls: ["/images/kanban-1.png", "/images/kanban-2.png"],
+    technologies: ["React", "Node.js", "Express", "PostgreSQL", "TailwindCSS"],
+    details: [
+      { 
+        title: "Objectif", 
+        content: "Créer une application complète et robuste pour la gestion de projets personnels, de l'idée au déploiement." 
+      },
+      { 
+        title: "Fonctionnalités", 
+        content: "• Authentification sécurisée par JWT<br />• CRUD complet pour les tâches<br />• Glisser-déposer (drag-and-drop) entre les colonnes<br />• Notifications pour les rappels et les échéances" 
+      },
+      { 
+        title: "Architecture", 
+        content: "Frontend React hébergé sur Netlify, communicant avec une API Express.js et une base de données PostgreSQL hébergées sur Render." 
+      },
+    ],
     },
     {
       titre: "myEzer Services",
