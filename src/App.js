@@ -1,4 +1,4 @@
-
+import React, { useState } from 'react';
 import './App.css';
 
 // === Navbar ===
@@ -28,9 +28,14 @@ function Hero() {
       <h1 className="text-5xl font-bold">Josia Arole</h1>
       <p className="mt-4 text-xl">Conceptrice & Développeuse Web et Mobile</p>
       <div className="mt-6 flex gap-4">
-        <a href="/cv.pdf" className="bg-white text-blue-600 px-6 py-2 rounded-lg shadow hover:bg-gray-200">
-          📄 Télécharger CV
+        
+        <a href="/CV_Arole_FR.pdf" className="bg-white text-blue-600 px-6 py-2 rounded-lg shadow hover:bg-gray-200">
+           Télécharger mon CV (FR)
         </a>
+        <br />
+         <a href="/CV_Arole_EN.pdf" className="bg-white text-blue-600 px-6 py-2 rounded-lg shadow hover:bg-gray-200">
+          Download my Resume (EN)
+         </a>
         <a href="#contact" className="bg-yellow-400 text-black px-6 py-2 rounded-lg shadow hover:bg-yellow-300">
           ✉️ Me contacter
         </a>
@@ -44,48 +49,232 @@ function About() {
     <section id="about" className="py-20 bg-gray-100 text-center">
       <h2 className="text-3xl font-bold">À propos</h2>
       <p className="mt-4 max-w-2xl mx-auto text-gray-700">
-        Développeuse passionnée, je conçois des applications web et mobiles
+        Étudiante en Programmation Informatique au Collège La Cité,Développeuse passionnée, je conçois des applications web et mobiles
         innovantes. Je combine créativité, rigueur technique et sens de l’ergonomie
-        pour offrir des solutions performantes et intuitives. 
+        pour offrir des solutions performantes et intuitives.Je suis prête à contribuer à des projets stimulants avec énergie et compétence.
         Mes projets incluent <strong>MemorizBible</strong>, <strong>Ezer Services</strong> et <strong>Panel Admin </strong>.
       </p>
     </section>
   );
 }
 
-function ProjectCard({ titre, description, lien }) {
+function ImageCarouselModal({ images, onClose }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  if (!images || images.length === 0) return null;
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const goToImage = (index) => {
+    setCurrentImageIndex(index);
+  };
+
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition">
-      <h3 className="text-xl font-bold text-gray-800">{titre}</h3>
-      <p className="text-gray-600 mt-2">{description}</p>
-      <a href={lien} className="text-blue-600 hover:underline mt-4 block">
-        Voir sur GitHub
-      </a>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50 p-4"
+      onClick={onClose}
+    >
+      {/* Bouton fermer */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-6 text-white text-4xl font-bold hover:text-gray-300 transition-colors z-60"
+      >
+        ×
+      </button>
+
+      {/* Contenu du carousel */}
+      <div className="relative max-w-4xl max-h-[90vh] w-full" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Image principale */}
+        <div className="relative">
+          <img
+            src={images[currentImageIndex]}
+            alt={`Image ${currentImageIndex + 1}`}
+            className="w-full h-auto max-h-[80vh] object-contain rounded-lg shadow-2xl"
+          />
+          
+          {/* Boutons navigation (si plusieurs images) */}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white text-2xl font-bold w-12 h-12 rounded-full hover:bg-opacity-75 transition-all"
+              >
+                ←
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white text-2xl font-bold w-12 h-12 rounded-full hover:bg-opacity-75 transition-all"
+              >
+                →
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Indicateurs (points) si plusieurs images */}
+        {images.length > 1 && (
+          <div className="flex justify-center mt-4 space-x-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToImage(index)}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  index === currentImageIndex 
+                    ? 'bg-white' 
+                    : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Compteur d'images */}
+        {images.length > 1 && (
+          <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+            {currentImageIndex + 1} / {images.length}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
+// === Project Details Modal ===
+function ProjectModal({ project, onClose }) {
+  if (!project) return null;
+
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-40 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-lg shadow-2xl p-6 max-w-2xl w-full relative max-h-[80vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold"
+        >
+          ×
+        </button>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{project.titre}</h2>
+        <div className="space-y-4">
+          {project.details.map((detail, index) => (
+            <div key={index}>
+              <h4 className="font-semibold text-lg text-gray-800">{detail.title}</h4>
+              <div
+                className="text-gray-600 prose prose-blue"
+                dangerouslySetInnerHTML={{ __html: detail.content.replace(/\n/g, '<br />') }}
+              ></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// === Project Card ===
+function ProjectCard({ project, onDetailsClick, onImagesClick }) {
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col h-full hover:shadow-2xl transition-shadow duration-300">
+      <div className="flex-grow">
+        <h3 className="text-xl font-bold text-gray-800">{project.titre}</h3>
+        <p className="text-gray-600 mt-2">{project.description}</p>
+        <div className="mt-4">
+          <div className="flex flex-wrap gap-2">
+            {project.technologies.map(tech => (
+              <span key={tech} className="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
+        <a href={project.lien} target="_blank" rel="noopener noreferrer" className="text-blue-600 font-semibold hover:underline">
+          Voir le Code
+        </a>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => onImagesClick(project.images)}
+            className="bg-white text-blue-600 font-semibold py-2 px-4 rounded-md border-2 border-blue-600 hover:bg-blue-50 transition-colors duration-300 flex items-center gap-1"
+          >
+            📷 Images {project.images.length > 1 && `(${project.images.length})`}
+          </button>
+          <button
+            onClick={() => onDetailsClick(project)}
+            className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-300"
+          >
+            Détails
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// === Projects Section ===
 function Projects() {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedImages, setSelectedImages] = useState(null);
+
   const projets = [
     {
-      titre: "MemorizBible",
-      description: "Application mobile de mémorisation  (QCM, dictée, recitation, multijoueur).",
-      lien: "https://github.com/Arolejosia/memoriz_bible",
+      titre: "API Gestionnaire de Tâches",
+      description: "API RESTful pour une application de gestion de tâches moderne.",
+      lien: "https://github.com/Arolejosia/memoriz-bible-api",
+      images: [
+        "https://via.placeholder.com/600x400/3B82F6/FFFFFF?text=Task+Manager+API",
+        "https://via.placeholder.com/600x400/10B981/FFFFFF?text=Database+Schema",
+        "https://via.placeholder.com/600x400/F59E0B/FFFFFF?text=API+Routes"
+      ],
+      technologies: ["Node.js", "Express", "PostgreSQL"],
+      details: [
+        { title: "Objectif", content: "Fournir un backend sécurisé et performant pour une application de type 'To-Do List'." },
+        { title: "Technologies", content: "API développée avec Node.js et Express, connectée à une base de données PostgreSQL via l'ORM Sequelize." },
+        { title: "Fonctionnalités", content: "• Authentification JWT<br />• CRUD complet pour les tâches<br />• Gestion des utilisateurs<br />• Validation des données" }
+      ]
     },
     {
-      titre: "Ezer Services",
+      titre: "myEzer Services",
       description: "Plateforme web & mobile de mise en relation clients–prestataires.",
-      lien: "https://github.com/Arolejosia/Ezer",
+      lien: "https://github.com/Arolejosia/myEzer-Services-Vitrine",
+      images: [
+        "/images/ezer1.png",
+        "/images/ezer2.png",
+        "/images/ezer3.png",
+        "/images/ezer4.png"
+      ],
+      technologies: ["Flutter", "Firebase", "FastAPI", "PWA","Stripe"],
+      details: [
+        { title: "Pourquoi ?", content: "myEzer simplifie la mise en relation entre clients et prestataires pour des services du quotidien." },
+        { title: "Comment ça marche ?", content: "Trois espaces : client, employé, admin. Commandes en temps réel,Geolocalisation, messagerie et notifications instantanées, tableau de bord admin." },
+         
+      ],
     },
     {
       titre: "Panel Admin",
       description: "Application mobile de mise en relation conducteurs–dépanneurs.",
       lien: "https://github.com/Arolejosia/Brilliant_Agent",
-    },
-    {
-      titre: "Gestionnaire de taches avancee et moderne",
-      description: "Application mobile de mise en relation conducteurs–dépanneurs.",
-      lien: "https://github.com/Arolejosia/memoriz-bible-api",
+      images: [
+        "https://via.placeholder.com/600x400/F97316/FFFFFF?text=Admin+Dashboard",
+        "https://via.placeholder.com/600x400/EC4899/FFFFFF?text=User+Management"
+      ],
+      technologies: ["Flutter", "Dart", "Firebase"],
+      details: [
+        { title: "Description", content: "Un panel d'administration robuste pour gérer les utilisateurs et les opérations de l'application Brilliant Agent." },
+        { title: "Technologies", content: "Construit avec Flutter et Dart, utilisant Firebase pour la base de données et l'authentification." },
+        { title: "Fonctionnalités", content: "• Gestion des utilisateurs<br />• Statistiques en temps réel<br />• Modération de contenu<br />• Système de notifications" }
+      ]
     },
   ];
 
@@ -94,9 +283,24 @@ function Projects() {
       <h2 className="text-3xl font-bold text-center">Projets</h2>
       <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-4">
         {projets.map((p, i) => (
-          <ProjectCard key={i} {...p} />
+          <ProjectCard
+            key={i}
+            project={p}
+            onDetailsClick={setSelectedProject}
+            onImagesClick={setSelectedImages}
+          />
         ))}
       </div>
+
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+
+      <ImageCarouselModal
+        images={selectedImages}
+        onClose={() => setSelectedImages(null)}
+      />
     </section>
   );
 }
