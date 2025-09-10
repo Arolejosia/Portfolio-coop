@@ -58,6 +58,7 @@ function About() {
   );
 }
 
+// === Carousel Modal for Images ===
 function ImageCarouselModal({ images, onClose }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -80,18 +81,14 @@ function ImageCarouselModal({ images, onClose }) {
       className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50 p-4"
       onClick={onClose}
     >
-      {/* Bouton fermer */}
       <button
         onClick={onClose}
         className="absolute top-4 right-6 text-white text-4xl font-bold hover:text-gray-300 transition-colors z-60"
       >
-        ×
+        &times;
       </button>
 
-      {/* Contenu du carousel */}
       <div className="relative max-w-4xl max-h-[90vh] w-full" onClick={(e) => e.stopPropagation()}>
-        
-        {/* Image principale */}
         <div className="relative">
           <img
             src={images[currentImageIndex]}
@@ -99,26 +96,24 @@ function ImageCarouselModal({ images, onClose }) {
             className="w-full h-auto max-h-[80vh] object-contain rounded-lg shadow-2xl"
           />
           
-          {/* Boutons navigation (si plusieurs images) */}
           {images.length > 1 && (
             <>
               <button
                 onClick={prevImage}
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white text-2xl font-bold w-12 h-12 rounded-full hover:bg-opacity-75 transition-all"
               >
-                ←
+                &#10094;
               </button>
               <button
                 onClick={nextImage}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white text-2xl font-bold w-12 h-12 rounded-full hover:bg-opacity-75 transition-all"
               >
-                →
+                &#10095;
               </button>
             </>
           )}
         </div>
 
-        {/* Indicateurs (points) si plusieurs images */}
         {images.length > 1 && (
           <div className="flex justify-center mt-4 space-x-2">
             {images.map((_, index) => (
@@ -135,7 +130,6 @@ function ImageCarouselModal({ images, onClose }) {
           </div>
         )}
 
-        {/* Compteur d'images */}
         {images.length > 1 && (
           <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
             {currentImageIndex + 1} / {images.length}
@@ -163,11 +157,11 @@ function ProjectModal({ project, onClose }) {
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold"
         >
-          ×
+          &times;
         </button>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">{project.titre}</h2>
         <div className="space-y-4">
-          {project.details.map((detail, index) => (
+          {(project.details || []).map((detail, index) => (
             <div key={index}>
               <h4 className="font-semibold text-lg text-gray-800">{detail.title}</h4>
               <div
@@ -191,7 +185,7 @@ function ProjectCard({ project, onDetailsClick, onImagesClick }) {
         <p className="text-gray-600 mt-2">{project.description}</p>
         <div className="mt-4">
           <div className="flex flex-wrap gap-2">
-            {project.technologies.map(tech => (
+            {(project.technologies || []).map(tech => (
               <span key={tech} className="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">
                 {tech}
               </span>
@@ -208,7 +202,7 @@ function ProjectCard({ project, onDetailsClick, onImagesClick }) {
             onClick={() => onImagesClick(project.images)}
             className="bg-white text-blue-600 font-semibold py-2 px-4 rounded-md border-2 border-blue-600 hover:bg-blue-50 transition-colors duration-300 flex items-center gap-1"
           >
-            📷 Images {project.images.length > 1 && `(${project.images.length})`}
+            📷 Images {(project.images || []).length > 1 && `(${(project.images || []).length})`}
           </button>
           <button
             onClick={() => onDetailsClick(project)}
@@ -229,26 +223,27 @@ function Projects() {
 
   const projets = [
     {
-    titre: "Moderne Kanban",
-    description: "Application web full-stack de gestion de tâches avec authentification et rappels.",
-    lien: "https://github.com/Arolejosia/kanban-fullstack",
-    liveLink: "https://modernekanban.netlify.app/",
-    imageUrls: ["/images/kanban-1.png", "/images/kanban-2.png"],
-    technologies: ["React", "Node.js", "Express", "PostgreSQL", "TailwindCSS"],
-    details: [
-      { 
-        title: "Objectif", 
-        content: "Créer une application complète et robuste pour la gestion de projets personnels, de l'idée au déploiement." 
-      },
-      { 
-        title: "Fonctionnalités", 
-        content: "• Authentification sécurisée par JWT<br />• CRUD complet pour les tâches<br />• Glisser-déposer (drag-and-drop) entre les colonnes<br />• Notifications pour les rappels et les échéances" 
-      },
-      { 
-        title: "Architecture", 
-        content: "Frontend React hébergé sur Netlify, communicant avec une API Express.js et une base de données PostgreSQL hébergées sur Render." 
-      },
-    ],
+      titre: "Moderne Kanban",
+      description: "Application web full-stack de gestion de tâches avec authentification et rappels.",
+      lien: "https://github.com/Arolejosia/kanban-fullstack",
+      liveLink: "https://modernekanban.netlify.app/",
+      // CORRIGÉ: "imageUrls" est devenu "images" pour la cohérence
+      images: ["/images/kanban-1.png", "/images/kanban-2.png"],
+      technologies: ["React", "Node.js", "Express", "PostgreSQL", "TailwindCSS"],
+      details: [
+        { 
+          title: "Objectif", 
+          content: "Créer une application complète et robuste pour la gestion de projets personnels, de l'idée au déploiement." 
+        },
+        { 
+          title: "Fonctionnalités", 
+          content: "• Authentification sécurisée par JWT<br />• CRUD complet pour les tâches<br />• Glisser-déposer (drag-and-drop) entre les colonnes<br />• Notifications pour les rappels et les échéances" 
+        },
+        { 
+          title: "Architecture", 
+          content: "Frontend React hébergé sur Netlify, communicant avec une API Express.js et une base de données PostgreSQL hébergées sur Render." 
+        },
+      ],
     },
     {
       titre: "myEzer Services",
@@ -260,11 +255,10 @@ function Projects() {
         "/images/ezer3.png",
         "/images/ezer4.png"
       ],
-      technologies: ["Flutter", "Firebase", "FastAPI", "PWA","Stripe"],
+      technologies: ["Flutter", "Firebase", "FastAPI", "PWA", "Stripe"],
       details: [
         { title: "Pourquoi ?", content: "myEzer simplifie la mise en relation entre clients et prestataires pour des services du quotidien." },
-        { title: "Comment ça marche ?", content: "Trois espaces : client, employé, admin. Commandes en temps réel,Geolocalisation, messagerie et notifications instantanées, tableau de bord admin." },
-         
+        { title: "Comment ça marche ?", content: "Trois espaces : client, employé, admin. Commandes en temps réel, Géolocalisation, messagerie et notifications instantanées, tableau de bord admin." },
       ],
     },
     {
@@ -272,8 +266,8 @@ function Projects() {
       description: "Application mobile de mise en relation conducteurs–dépanneurs.",
       lien: "https://github.com/Arolejosia/Brilliant_Agent",
       images: [
-        "https://via.placeholder.com/600x400/F97316/FFFFFF?text=Admin+Dashboard",
-        "https://via.placeholder.com/600x400/EC4899/FFFFFF?text=User+Management"
+        "/images/panel-admin-1.png",
+        "/images/panel-admin-2.png"
       ],
       technologies: ["Flutter", "Dart", "Firebase"],
       details: [
@@ -303,6 +297,7 @@ function Projects() {
         onClose={() => setSelectedProject(null)}
       />
 
+      {/* CORRIGÉ: Le nom du composant correspond maintenant à sa définition */}
       <ImageCarouselModal
         images={selectedImages}
         onClose={() => setSelectedImages(null)}
@@ -329,10 +324,9 @@ function Skills() {
 
 function Certifications() {
   const certifs = [
-    { nom: "TSSA G3", annee: "2024" },
-    { nom: "Flutter & Firebase Bootcamp", annee: "2025 (prévu)" },
-    { nom: "AWS Machine Learning Specialty", annee: "2025 (prévu)" },
-    { nom: "Oracle Database SQL Certified Associate (1Z0-071)", annee:"2025 (prévu)"  }
+    { nom: "RCR", annee: "2025" },
+    { nom: "Flutter & Firebase ", annee: "2025" },
+    { nom: "Java", annee: "2025" },
   ];
 
   return (
