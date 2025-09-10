@@ -255,7 +255,7 @@ function Projects() {
         "/images/ezer3.png",
         "/images/ezer4.png"
       ],
-      technologies: ["Flutter", "Firebase", "FastAPI", "PWA", "Stripe"],
+      technologies: ["C#","Flutter", "Firebase", "FastAPI", "PWA", "Stripe"],
       details: [
         { title: "Pourquoi ?", content: "myEzer simplifie la mise en relation entre clients et prestataires pour des services du quotidien." },
         { title: "Comment ça marche ?", content: "Trois espaces : client, employé, admin. Commandes en temps réel, Géolocalisation, messagerie et notifications instantanées, tableau de bord admin." },
