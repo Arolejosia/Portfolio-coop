@@ -307,7 +307,7 @@ function Projects() {
 }
 
 function Skills() {
-  const skills = ["Flutter", "Firebase", "React", "FastAPI", "SQL", "GitHub", "Render", "Javasript","Express","SQL", "Figma", "UI/UX Design"];
+  const skills = ["Flutter","C#", "Firebase", "React", "FastAPI", "SQL", "GitHub", "Render", "Javasript","Express","SQL", "Figma", "UI/UX Design"];
   return (
     <section id="skills" className="py-20 bg-white text-center">
       <h2 className="text-3xl font-bold">Compétences</h2>
